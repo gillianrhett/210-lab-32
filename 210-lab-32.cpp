@@ -10,8 +10,8 @@
 #include "Car.h"
 using namespace std;
 
-const double P_LEAVE = 0.55, P_JOIN = 0.45;
-const int INIT_SIZE = 2;
+const double P_LEAVE = 55; // either a car leaves or a new car joins
+const int INIT_SIZE = 2; // initial size of the deque
 
 int main() {
     // create a deque to store the cars in the toll lane
@@ -28,7 +28,26 @@ int main() {
         c.print();
     }
 
-    // simulate 
+    // simulate cycles of the toll lane until it is empty
+    int count = 1;
+    int prob;
+    while(!(toll_lane.empty())) {
+        cout << "Time: " << count++ << " Operation: ";
+        // use a random number to determine whether a car pays and leaves or a new car joins
+        prob = rand() % 100 + 1;
+        if (prob <= P_LEAVE) { // 1 to 55 --> 55% probability a car leaves
+            cout << "Car paid: ";
+            toll_lane.front().print();
+            toll_lane.pop_front();
+        }
+        else { // 56 to 100 --> 45% probability that a new car joins
+            cout << "Joined lane: ";
+            Car c;
+            toll_lane.push_back(c);
+        }
+        // display the current toll lane after the change
+        
+    }
 
     return 0;
 }
