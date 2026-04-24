@@ -35,7 +35,8 @@ int main() {
     while(!(toll_lane.empty())) {
         cout << "Time: " << count++ << " Operation: ";
         // use a random number to determine whether a car pays and leaves or a new car joins
-        prob = rand() % 100 + 1;
+        // based on the sample output, only one of the two operations can happen in each cycle
+        prob = rand() % 100 + 1; // random number 1 to 100 for probability
         if (prob <= P_LEAVE) { // 1 to 55 --> 55% probability a car leaves
             cout << "Car paid: ";
             toll_lane.front().print(); // peek at the front car to display its info
@@ -45,9 +46,9 @@ int main() {
             cout << "Joined lane: ";
             Car c; // create a new car with random info
             toll_lane.push_back(c); // the new car joins
-            toll_lane.back().print(); // peek at the rear car that just joined
+            toll_lane.back().print(); // peek at the rear car that just joined and display its info
         }
-        // display the current toll lane after the change
+        // display the current toll lane after the operation
         cout << "Queue:" << endl;
         for (Car c : toll_lane) {
             cout << "\t";
