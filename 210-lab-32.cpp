@@ -14,14 +14,21 @@ const double P_LEAVE = 0.55, P_JOIN = 0.45;
 const int INIT_SIZE = 2;
 
 int main() {
-    deque <Car> toll_line;
+    // create a deque to store the cars in the toll lane
+    deque <Car> toll_lane;
     for(int i = 0; i < INIT_SIZE; ++i) {
         Car new_car;
-        toll_line.push_back(new_car);
+        toll_lane.push_back(new_car);
     }
 
-    for (Car c : toll_line) // TESTING
+    // display the cars in the lane at the beginning of the simulation
+    cout << "Initial queue:" << endl;
+    for (Car c : toll_lane) {
+        cout << "\t";
         c.print();
+    }
+
+    // simulate 
 
     return 0;
 }
