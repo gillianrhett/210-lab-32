@@ -10,15 +10,15 @@
 #include "Car.h"
 using namespace std;
 
-const double P_LEAVE = 55; // either a car leaves or a new car joins
+const int P_LEAVE = 55; // either a car leaves or a new car joins
 const int INIT_SIZE = 2; // initial size of the deque
 
 int main() {
     // create a deque to store the cars in the toll lane
     deque <Car> toll_lane;
     for(int i = 0; i < INIT_SIZE; ++i) {
-        Car new_car;
-        toll_lane.push_back(new_car);
+        Car new_car; // create a new car with random info
+        toll_lane.push_back(new_car); // add the new car to the back of the line
     }
 
     // display the cars in the lane at the beginning of the simulation
@@ -31,23 +31,31 @@ int main() {
     // simulate cycles of the toll lane until it is empty
     int count = 1;
     int prob;
+    srand(time(0));
     while(!(toll_lane.empty())) {
         cout << "Time: " << count++ << " Operation: ";
         // use a random number to determine whether a car pays and leaves or a new car joins
         prob = rand() % 100 + 1;
         if (prob <= P_LEAVE) { // 1 to 55 --> 55% probability a car leaves
             cout << "Car paid: ";
-            toll_lane.front().print();
-            toll_lane.pop_front();
+            toll_lane.front().print(); // peek at the front car to display its info
+            toll_lane.pop_front(); // remove the front car
         }
         else { // 56 to 100 --> 45% probability that a new car joins
             cout << "Joined lane: ";
-            Car c;
-            toll_lane.push_back(c);
+            Car c; // create a new car with random info
+            toll_lane.push_back(c); // the new car joins
+            toll_lane.back().print(); // peek at the rear car that just joined
         }
         // display the current toll lane after the change
-        
+        cout << "Queue:" << endl;
+        for (Car c : toll_lane) {
+            cout << "\t";
+            c.print();
+        }
+        if(toll_lane.empty())
+            cout << "\tEmpty"<< endl;
+        cout << endl;
     }
-
     return 0;
 }
