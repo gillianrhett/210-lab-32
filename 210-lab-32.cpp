@@ -55,12 +55,12 @@ int main() {
             // based on the sample output, only one of the two operations can happen in each cycle
             prob = rand() % 100 + 1; // random number 1 to 100 for probability                
             if (prob <= P_LEAVE && !lanes.at(lane).empty()) { // 1 to 46 --> 46% probability a car leaves
-                cout << " Paid: ";
+                cout << "Paid: ";
                 lanes.at(lane).front().print(); // peek at the front car to display its info
                 lanes.at(lane).pop_front(); // remove the front car
             }
             else if (P_LEAVE < prob && prob <= P_JOIN) { // 47 to 85 --> 39% probability that a new car joins
-                cout << "Joined lane: ";
+                cout << "Joined: ";
                 Car c; // create a new car with random info
                  lanes.at(lane).push_back(c); // the new car joins
                  lanes.at(lane).back().print(); // peek at the rear car that just joined and display its info
@@ -80,8 +80,11 @@ int main() {
             else { // else the lane was empty and a new car didn't join
                 cout << "Lane is still empty." << endl;
             }
+        }
+        // now display the cars in each lane
+        for (int lane = 0; lane < NUM_LANES; ++lane) {
             // display the current toll lane after the operation
-            cout << "Queue:" << endl;
+            cout << "Lane " << lane + 1 << " Queue:" << endl;
             for (Car c : lanes.at(lane)) {
                 cout << "\t";
                 c.print();
@@ -91,6 +94,5 @@ int main() {
             cout << endl;
         }
     }
-
     return 0;
 }
