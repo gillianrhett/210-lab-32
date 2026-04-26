@@ -45,34 +45,45 @@ int main() {
     }
 
     // simulate cycles of the toll lane until it is empty
-    int prob;
+    int prob, rand_lane; // for storing random numbers
     srand(time(0));
     for (int t = 1; t <= SIM_CYCLES; ++t) {
         cout << "Time " << t << ":" << endl;
-        int l = 1;
-        for (deque toll_lane : lanes) {
-            cout << "Lane: " << l++;
+        for (int lane = 0; lane < NUM_LANES; ++lane) {
+            cout << "Lane: " << lane + 1 << " "; // the lane number to display is one greater than its index
             // use a random number to determine whether a car pays and leaves or a new car joins or a car switches lanes
             // based on the sample output, only one of the two operations can happen in each cycle
-            prob = rand() % 100 + 1; // random number 1 to 100 for probability
-            if (prob <= P_LEAVE) { // 1 to 46 --> 46% probability a car leaves
-                cout << " Paid: ";
-                toll_lane.front().print(); // peek at the front car to display its info
-                toll_lane.pop_front(); // remove the front car
-            }
-            else { // 56 to 100 --> 45% probability that a new car joins
-                cout << "Joined lane: ";
-                Car c; // create a new car with random info
-                toll_lane.push_back(c); // the new car joins
-                toll_lane.back().print(); // peek at the rear car that just joined and display its info
+            if (!lanes.at(lane).empty()) {
+                prob = rand() % 100 + 1; // random number 1 to 100 for probability
+                if (prob <= P_LEAVE) { // 1 to 46 --> 46% probability a car leaves
+                    cout << " Paid: ";
+                    lanes.at(lane).front().print(); // peek at the front car to display its info
+                    lanes.at(lane).pop_front(); // remove the front car
+                }
+                else if (P_LEAVE < prob && prob <= P_JOIN) { // 47 to 85 --> 39% probability that a new car joins
+                    cout << "Joined lane: ";
+                    Car c; // create a new car with random info
+                    lanes.at(lane).push_back(c); // the new car joins
+                    lanes.at(lane).back().print(); // peek at the rear car that just joined and display its info
+                }
+                else { // 86 to 100 --> 15% probability that the rear car switches to another lane
+                    // randomly pick a different lane
+                    rand_lane = lane;
+                    while(rand_lane == lane)
+                        rand_lane = rand() % NUM_LANES; // pick a random lane that isn't the current lane
+                    // add the car to the new lane
+
+                    // remove the car from its old lane
+
+                }
             }
             // display the current toll lane after the operation
             cout << "Queue:" << endl;
-            for (Car c : toll_lane) {
+            for (Car c : lanes.at(lane)) {
                 cout << "\t";
                 c.print();
             }
-            if(toll_lane.empty())
+            if(lanes.at(lane).empty())
                 cout << "\tEmpty"<< endl;
             cout << endl;
         }
